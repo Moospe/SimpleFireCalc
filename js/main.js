@@ -1,21 +1,10 @@
 // JavaScript source code
-let income = 30000
-let capital = 15000
+let yearcap = [];
 
-let target = 600000
-let yearCost = 24000
-
-let efficiency = 1.04
-let savings = 0.35
-let raise = 1.011
-
-let yearcap = [15000]
-
-
-
-$(function () { //shorthand document.ready function
+$(function () { 
     $('#form').on('submit', function (e) {
-        e.preventDefault();  //prevent form from submitting
+        e.preventDefault();
+
         var formdata = $("#form").serializeArray();
         var data = {};
         $(formdata).each(function (index, obj) {
@@ -23,23 +12,24 @@ $(function () { //shorthand document.ready function
             if (data[obj.name] === undefined)
                 data[obj.name];
 
-            data[obj.name] = obj.value;
-
+            data[obj.name] = Number(obj.value);
+            
         });
 
-        console.log(data);
-        console.log(data[0]);
-        console.log(data.income); //use the console for debugging, F12 in Chrome, not alerts
+        target = (data.yearCost / data.efficiency) * 100
 
-        while (capital < target) {
-            income = income * raise;
-            capital = (capital + (income * savings)) * efficiency;
+        yearcap = [data.capital]
+        data.raise = (data.raise / 100) + 1
+        data.efficiency = (data.efficiency / 100) + 1
+        data.savings = data.savings / 100
 
-            yearcap.push(capital);
+        while (data.capital < target) {
+            data.income = data.income * data.raise;
+            data.capital = (data.capital + (data.income * data.savings)) * data.efficiency;
+
+            yearcap.push(data.capital);
         }
         console.log(yearcap);
     });
     $('.outcome').text(yearcap.length);
 });
-
-// $.grep(data, function (x) { return x.name == 'efficiency' } )
