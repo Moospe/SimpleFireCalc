@@ -1,6 +1,22 @@
 // JavaScript source code
 let yearcap = [];
 
+var NL = d3.formatLocale({
+    "decimal": ",",
+    "thousands": ".",
+    "grouping": [3],
+    "currency": ["\u20AC ", ""],
+    "dateTime": "%a %b %e %X %Y",
+    "date": "%m/%d/%Y",
+    "time": "%H:%M:%S",
+    "periods": ["AM", "PM"],
+    "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "shortDays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+})
+
+
 $(function () { 
     $('#form').on('submit', function (e) {
         e.preventDefault();
@@ -46,11 +62,14 @@ function drawGraph (dataRaw) {
         dataNew.push({ "x": i, "y": dataRaw[i] })
     }
 
+    d3.select("#dataViz svg").remove("svg");
+    d3.select("#dataViz .tooltip").remove(".tooltip");
+
     var div = d3.select("#dataViz").append("div")
         .attr("class", "tooltip")
-        .style("opacity", 0);
-
-    d3.select("#dataViz svg").remove("svg");
+        .style("opacity", 0)
+        .style("display", "none");
+      
 
     // append the svg object to the body of the page
     let svg = d3.select("#dataViz")
@@ -62,11 +81,12 @@ function drawGraph (dataRaw) {
             "translate(" + margin.left + "," + margin.top + ")");
 
 
-    // Add X axis --> it is a date format
+    // Add X axis
     let x = d3.scaleLinear()
         .domain(d3.extent(dataNew, function (d) { return d.x; }))
         .range([0, width]);
     svg.append("g")
+        .attr("class", "axis")
         .attr("transform", "translate(0," + (height + 5) + ")")
         .call(d3.axisBottom(x).ticks(5).tickSizeOuter(0));
 
@@ -75,13 +95,14 @@ function drawGraph (dataRaw) {
         .domain(d3.extent(dataNew, function (d) { return +d.y; }))
         .range([height, 0]);
     svg.append("g")
+        .attr("class", "axis")
         .attr("transform", "translate(-5,0)")
         .call(d3.axisLeft(y).tickSizeOuter(0));
 
     // Add the area
     svg.append("path")
         .datum(dataNew)
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#B7D1F6")
         .attr("fill-opacity", .3)
         .attr("stroke", "none")
         .attr("d", d3.area()
@@ -94,7 +115,7 @@ function drawGraph (dataRaw) {
     svg.append("path")
         .datum(dataNew)
         .attr("fill", "none")
-        .attr("stroke", "#69b3a2")
+        .attr("stroke", "#B7D1F6")
         .attr("stroke-width", 4)
         .attr("d", d3.line()
             .x(function (d) { return x(d.x) })
@@ -107,16 +128,17 @@ function drawGraph (dataRaw) {
         .enter()
         .append("circle")
         .attr("class", "circleBasicTooltip")
-        .attr("fill", "red")
+        .attr("fill", "#8DACE2")
         .attr("stroke", "none")
         .attr("cx", function (d) { return x(d.x) })
         .attr("cy", function (d) { return y(d.y) })
-        .attr("r", 3)
+        .attr("r", 4)
         .on("mouseover", function (d) {
             div.transition()
                 .duration(200)
-                .style("opacity", .9);
-            div.html(d3.format(",d")(d.y) + "<br/>")
+                .style("opacity", .9)
+                .style("display", "block");
+            div.html("Kapitaal: " + NL.format("$,.2f")(d.y) + "<br/> jaar: " + d.x)
                 .style("left", (d3.event.pageX) + 10 + "px")
                 .style("top", (d3.event.pageY - 30) + "px");
         })
@@ -124,6 +146,10 @@ function drawGraph (dataRaw) {
             div.transition()
                 .duration(500)
                 .style("opacity", 0);
+
+            div.transition()
+                .delay(500)
+                .style("display", "none");
         });
 
 }

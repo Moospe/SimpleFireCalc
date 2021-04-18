@@ -22,47 +22,47 @@
 </head>
 <body>
     <div class="container vh-100">
-        <h1 class="h1 text-center">F<span class="h6 text-muted">inancial</span> i<span class="h6 text-muted">ndependance</span> r<span class="h6 text-muted">etire</span> e<span class="h6 text-muted">arly</span></h1>
+        <h1 class="text-center">F<span class="h6 ">inancial</span> i<span class="h6 ">ndependance</span> r<span class="h6 ">etire</span> e<span class="h6 ">arly</span></h1>
         <div class="row h-25">
             <form id="form" class="col-sm">
                 <div class="row mt-2">
-                    <label for="income" class="col-sm-2 col-form-label">income</label>
+                    <label for="income" class="col-sm-3 col-form-label">inkomen p/j</label>
                     <div class="col">
                         <input type="number" class="form-control" id="income" name="income" value="30000">
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <label for="savings" class="col-sm-2 col-form-label">savings</label>
+                    <label for="savings" class="col-sm-3 col-form-label">spaar %</label>
                     <div class="col">
                         <input type="number" class="form-control" id="savings" name="savings" placeholder="%" step=".01" value="35">
                     </div>
                 </div>
-
                 <div class="row mt-2">
-                    <label for="capital" class="col-sm-2 col-form-label">capital</label>
+                    <label for="raise" class="col-sm-3 col-form-label">groei inkomsten %</label>
+                    <div class="col">
+                        <input type="number" class="form-control" id="raise" name="raise" placeholder="%" step=".01" value="1.1">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <label for="capital" class="col-sm-3 col-form-label">huidig kapitaal</label>
                     <div class="col">
                         <input type="number" class="form-control" id="capital" name="capital" value="15000">
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <label for="efficiency" class="col-sm-2 col-form-label">efficiency</label>
+                    <label for="efficiency" class="col-sm-3 col-form-label">rendement %</label>
                     <div class="col">
                         <input type="number" class="form-control" id="efficiency" name="efficiency" placeholder="%" step=".01" value="4">
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <label for="yearCost" class="col-sm-2 col-form-label">yearCost</label>
+                    <label for="yearCost" class="col-sm-3 col-form-label">uitgaven p/j</label>
                     <div class="col">
                         <input type="number" class="form-control" id="yearCost" name="yearCost" value="24000">
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <label for="raise" class="col-sm-2 col-form-label">raise</label>
-                    <div class="col">
-                        <input type="number" class="form-control" id="raise" name="raise" placeholder="%" step=".01" value="1.1">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary col-sm-12 mt-2">Sign in</button>
+
+                <button type="submit" class="btn btn-primary col-sm-12 mt-2">Calculate</button>
             </form>
             <div class="col-md" id="dataViz">
 
