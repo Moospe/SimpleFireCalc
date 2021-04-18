@@ -1,3 +1,9 @@
 ﻿body
 {
+
+}
+
+.tooltip {
+    background-color: gray;
+    padding: 5px;
 }
